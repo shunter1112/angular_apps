@@ -1,0 +1,2 @@
+Header append Access-Control-Allow-Origin: *
+Header append Access-Control-Allow-Methods: POST, PUT, GET, DELETE, OPTIONS

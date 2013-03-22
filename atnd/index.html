@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app>
+
+<head>
+  <meta charset="utf8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='http://fonts.googleapis.com/css?family=Contrail+One' rel='stylesheet' type='text/css'>
+  <style>
+  * { font-family: 'Contrail One', cursive; margin:0px; padding: 0px;  }
+  #everything{ position: absolute; width:100%; height:100%; }
+  </style>
+</head>
+
+<body ng-controller="AtndCtrl" style="height: 100%;">
+  <div id="everything" style="">
+    <h1> Atnd Search </h1>
+    <label for "keyword">Key Word: </label>
+    <input type="text" ng-change="search_event()" ng-model="query.keyword" id="keyword" />
+    <span>{{notice}}</span>
+    <ul id="results">
+      <li ng-repeat="event in events">
+        <div class ="event">
+          <h2><a href="{{event.event_url}}">{{event.title}}</a></h2>
+          <h3>{{event.catch}}</h3>
+          <h4>{{event.address}}</h4>
+          <span>{{event.accepted}}/{{event.limit}}</span>
+      </li>
+    </ul>
+  </div>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.1/angular.min.js"></script>
+  <script type="text/javascript">
+  var Timer;
+  function AtndCtrl($scope, $http){
+    $scope.search_event = function(){
+      $scope.notice = "";
+      var url = "http://api.atnd.org/events/?"+(_.map($scope.query,function(val,key){return key+"="+val})).join("&").toString();
+      clearTimeout($scope.timer);
+      $scope.timer = setTimeout(function(){
+        console.log(url);
+        $http.jsonp(url).
+          success(function(response) {
+            console.log(response);
+            $scope.events = response.events;
+          });
+      },500);
+    };
+    $scope.query = {format: "jsonp", callback: "JSON_CALLBACK"};
+  }
+
+  </script>
+  </div>
+</body>
+</html>

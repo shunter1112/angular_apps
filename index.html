@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html ng-app="MyAngularApp">
+<head>
+  <meta charset="utf8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='http://fonts.googleapis.com/css?family=Keania+One' rel='stylesheet' type='text/css'>
+  <style>
+  * { font-family: 'Keania One', cursive; margin:0px; padding: 0px;  }
+  #everything{ position: absolute; width:100%; height:100%; }
+  h1{
+    text-shadow: 1px 4px 10px #000;
+    margin-top: 20%;
+    text-align:center;
+    color: #FFF;}
+  h2 { text-align: center; }
+  #footer{position: absolute;
+  background: rgba(0,0,0,.5); overflow-x: scroll; overflow-y: hidden;
+  width: 100%; height: 60px; bottom: 0px;}
+  ul { margin: 0px; list-style: none; height: 50px; white-space: nowrap}
+  li{ display: inline-block; position: relative; height: 50px; width: 50px; margin: 5px; white-space: nowrap}
+  li span{ position:absolute; font-size: 10px; bottom: 0px}
+  #caption {display: block;position:absolute; bottom:60px; background: rgba(0,0,0,.5); padding: 0px 10px; color: #FFF;}
+  </style>
+</head>
+<body ng-controller="IndexCtrl" style="">
+  <div id="everything" style="" 
+  <h1> Picklr </h1>
+  <h2> {{bColor}} </h2>
+  <span id="caption">Picked List</span>
+  <div id="footer">
+  <ul>
+    <li ng-repeat="app in apps.list">
+      <span>{{app.name}}
+    </li>
+  </ul>
+  </div>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.1/angular.min.js"></script>
+  <script type="text/javascript" src="./application.js"></script>
+  <script type="text/javascript">
+  function IndexCtrl($scope, Apps){
+    $scope.apps = Apps;
+    $scope.Value = 50;
+    $scope.bColor = "#000000";
+    $scope.items = []
+    $scope.changeColor = function($event){
+      $scope.bColor = ConvertPointerToColor($event.pageX, $event.pageY, $scope.Value);
+    };
+    $scope.addColor = function(){
+      $scope.items.push($scope.bColor);
+      console.log($scope.bColor);
+    }
+  }
+
+  </script>
+  </div>
+</body>
+</html>
